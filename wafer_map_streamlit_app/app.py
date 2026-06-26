@@ -22,44 +22,44 @@ EXCEL_EXTENSIONS = {".xlsx", ".xls"}
 PROCESS_KNOWLEDGE: dict[str, dict[str, list[str]]] = {
     "증착": {
         "base_causes": [
-            "샤워헤드 유량 분포 또는 precursor depletion",
-            "susceptor/ESC 온도 편차",
-            "edge exclusion, clamp ring, wafer rotation 조건",
-            "챔버 seasoning 상태 또는 wall loading 변화",
+            "가스 공급 분포 불균일",
+            "웨이퍼 받침대 온도 편차",
+            "가장자리 제외 영역 또는 고정 링 조건 변화",
+            "챔버 상태 변화 또는 벽면 누적 영향",
         ],
         "base_tools": [
-            "타원계/reflectometer 두께 맵",
-            "XRR 또는 XRF 조성/두께 확인",
-            "AFM 표면 거칠기",
-            "RGA, MFC log, chamber pressure/RF log",
+            "박막 두께 측정기",
+            "조성 및 두께 확인 장비",
+            "표면 거칠기 측정",
+            "가스 유량, 압력, 전력 기록 확인",
         ],
     },
     "식각": {
         "base_causes": [
-            "edge ring 소모 또는 focus ring 상태 변화",
-            "플라즈마 밀도/RF bias 불균일",
-            "gas flow, pressure, endpoint timing 편차",
-            "photoresist 잔막 또는 polymer redeposition",
+            "가장자리 링 또는 초점 링 마모",
+            "플라즈마 분포 또는 전압 조건 불균일",
+            "가스 유량, 압력, 종료 시점 편차",
+            "감광막 잔류물 또는 식각 부산물 재부착",
         ],
         "base_tools": [
-            "CD-SEM / OCD profile",
-            "ellipsometer 잔막 두께 맵",
-            "OES endpoint trace",
-            "XPS/ToF-SIMS 표면 잔류물 분석",
+            "선폭 및 단면 형상 측정",
+            "잔막 두께 맵 확인",
+            "식각 종료 신호 기록 확인",
+            "표면 잔류물 분석",
         ],
     },
     "포토": {
         "base_causes": [
-            "exposure dose/focus drift",
-            "spin coat 두께 및 EBR 조건",
-            "hot plate bake 온도 균일도",
-            "scanner leveling, overlay, reticle/illumination 조건",
+            "노광량 또는 초점 조건 변화",
+            "감광막 코팅 두께 및 가장자리 제거 조건",
+            "베이크 온도 균일도",
+            "노광 장비 수평, 정렬, 마스크 조건 변화",
         ],
         "base_tools": [
-            "CD-SEM CD uniformity",
-            "overlay metrology",
-            "film thickness mapper",
-            "defect inspection / macro inspection",
+            "선폭 균일도 측정",
+            "오버레이 정렬 측정",
+            "감광막 두께 맵 확인",
+            "결함 검사 및 육안 수준 검사",
         ],
     },
 }
@@ -68,58 +68,58 @@ PROCESS_KNOWLEDGE: dict[str, dict[str, list[str]]] = {
 PATTERN_GUIDANCE: dict[str, dict[str, dict[str, list[str]]]] = {
     "edge_ring": {
         "증착": {
-            "causes": ["edge gas depletion", "edge temperature drop", "carrier ring contact/rotation issue"],
-            "tools": ["edge bead/edge exclusion review", "wafer edge ellipsometry", "susceptor temperature log"],
+            "causes": ["가장자리 가스 공급 부족", "가장자리 온도 저하", "웨이퍼 지지 링 접촉 또는 회전 문제"],
+            "tools": ["가장자리 제외 영역 조건 확인", "가장자리 두께 측정", "웨이퍼 받침대 온도 기록 확인"],
         },
         "식각": {
-            "causes": ["focus ring wear", "edge plasma sheath change", "clamp/ESC backside He leakage"],
-            "tools": ["focus ring inspection", "OES radial trend", "ESC helium leak log"],
+            "causes": ["초점 링 마모", "가장자리 플라즈마 분포 변화", "웨이퍼 고정 또는 뒷면 냉각 조건 이상"],
+            "tools": ["초점 링 상태 점검", "반경 방향 플라즈마 신호 확인", "웨이퍼 고정 장치 냉각 기록 확인"],
         },
         "포토": {
-            "causes": ["edge bead removal drift", "spin speed acceleration profile", "edge dispense imbalance"],
-            "tools": ["macro inspection", "resist thickness edge scan", "track EBR dispense log"],
+            "causes": ["가장자리 감광막 제거 조건 변화", "회전 코팅 속도 변화", "가장자리 도포량 불균일"],
+            "tools": ["외관 검사", "가장자리 감광막 두께 측정", "도포 장비 가장자리 제거 기록 확인"],
         },
     },
     "center_anomaly": {
         "증착": {
-            "causes": ["center showerhead distribution bias", "wafer bow/contact thermal shift", "center precursor stagnation"],
-            "tools": ["center-to-edge thickness scan", "wafer bow measurement", "chamber flow simulation/log review"],
+            "causes": ["중앙부 가스 분포 치우침", "웨이퍼 휨 또는 접촉 열전달 변화", "중앙부 반응 가스 정체"],
+            "tools": ["중앙-가장자리 두께 비교", "웨이퍼 휨 측정", "챔버 유량 기록 확인"],
         },
         "식각": {
-            "causes": ["center plasma density peak", "endpoint over/under etch", "ESC cooling zone imbalance"],
-            "tools": ["post-etch residue map", "thermal zone log", "OCD/CD-SEM center sampling"],
+            "causes": ["중앙부 플라즈마 집중", "식각 시간 과다 또는 부족", "냉각 영역별 온도 불균일"],
+            "tools": ["식각 후 잔류물 맵 확인", "온도 영역별 기록 확인", "중앙부 선폭 및 형상 측정"],
         },
         "포토": {
-            "causes": ["focus leveling error", "resist puddle/spin center mark", "hot plate center temperature bias"],
-            "tools": ["focus-exposure matrix", "resist thickness map", "hot plate temperature calibration"],
+            "causes": ["초점 또는 수평 보정 오차", "중앙부 감광막 도포 흔적", "베이크 판 중앙 온도 편차"],
+            "tools": ["초점-노광 조건 확인", "감광막 두께 맵 확인", "베이크 판 온도 보정 확인"],
         },
     },
     "gradient": {
         "증착": {
-            "causes": ["cross-wafer flow directionality", "temperature zone skew", "wafer rotation slip"],
-            "tools": ["MFC/pressure trend", "multi-zone heater log", "rotation hardware check"],
+            "causes": ["웨이퍼 한쪽 방향 가스 흐름 치우침", "온도 영역 치우침", "웨이퍼 회전 불안정"],
+            "tools": ["가스 유량 및 압력 추세 확인", "다중 온도 영역 기록 확인", "회전 장치 점검"],
         },
         "식각": {
-            "causes": ["gas inlet asymmetry", "magnetic field/plasma tilt", "RF matching drift"],
-            "tools": ["plasma/OES spatial check", "RF match log", "chamber hardware symmetry check"],
+            "causes": ["가스 유입 방향 불균형", "플라즈마가 한쪽으로 기울어짐", "전력 매칭 조건 변화"],
+            "tools": ["공간별 플라즈마 신호 확인", "전력 매칭 기록 확인", "챔버 부품 대칭 상태 점검"],
         },
         "포토": {
-            "causes": ["track nozzle gradient", "scanner slit/focus trend", "bake plate zone offset"],
-            "tools": ["CD uniformity by slit position", "overlay/focus map", "track dispense and bake zone log"],
+            "causes": ["도포 노즐 방향성 편차", "노광 장비 초점 경향 변화", "베이크 판 영역별 온도 차이"],
+            "tools": ["위치별 선폭 균일도 확인", "정렬 및 초점 맵 확인", "도포와 베이크 영역별 기록 확인"],
         },
     },
     "local_defect": {
         "증착": {
-            "causes": ["particle shadowing", "micro-scratch", "local nucleation delay"],
-            "tools": ["bright-field defect inspection", "SEM review", "AFM or optical microscope review"],
+            "causes": ["입자에 의한 국소 가림", "미세 스크래치", "국소 박막 성장 지연"],
+            "tools": ["광학 결함 검사", "전자현미경 리뷰", "표면 형상 또는 현미경 확인"],
         },
         "식각": {
-            "causes": ["particle micromasking", "local polymer residue", "chuck spot contamination"],
-            "tools": ["defect review SEM", "post-etch residue inspection", "wet clean split check"],
+            "causes": ["입자에 의한 국소 식각 방해", "국소 부산물 잔류", "척 표면 오염"],
+            "tools": ["결함 위치 전자현미경 확인", "식각 후 잔류물 검사", "세정 조건 비교 확인"],
         },
         "포토": {
-            "causes": ["particle/air bubble", "reticle contamination", "local resist coating defect"],
-            "tools": ["KLA/defect inspection", "reticle inspection", "macro/microscope review"],
+            "causes": ["입자 또는 기포", "마스크 오염", "국소 감광막 코팅 불량"],
+            "tools": ["결함 검사 장비 확인", "마스크 검사", "외관 및 현미경 확인"],
         },
     },
 }
@@ -128,6 +128,14 @@ PATTERN_GUIDANCE: dict[str, dict[str, dict[str, list[str]]]] = {
 METRIC_LABELS = {
     "thickness": "두께",
     "sheet": "시트저항",
+}
+
+PATTERN_LABELS = {
+    "edge_ring": "가장자리 링 이상",
+    "center_anomaly": "중앙부 이상",
+    "gradient": "한쪽 방향 변화",
+    "local_defect": "국소 결함",
+    "insufficient": "데이터 부족",
 }
 
 
@@ -160,6 +168,15 @@ def list_data_files() -> list[Path]:
         [path for path in DATA_DIR.iterdir() if path.is_file() and path.suffix.lower() in SUPPORTED_DATA_EXTENSIONS],
         key=lambda path: path.name.lower(),
     )
+
+
+def display_data_file_name(path: Path) -> str:
+    labels = {
+        "synthetic_wafer_map.csv": "기본 예시 데이터",
+        "synthetic_deposition_edge_center.csv": "증착 예시: 가장자리/중앙부 이상",
+        "synthetic_etch_gradient_local.csv": "식각 예시: 방향성 변화/국소 결함",
+    }
+    return labels.get(path.name, path.name)
 
 
 def read_tabular_data(source: Any, file_name: str, sheet_name: str | None = None) -> pd.DataFrame:
@@ -289,6 +306,10 @@ def direction_name(gx: float, gy: float) -> str:
     return "동쪽"
 
 
+def format_change(value: float) -> str:
+    return f"{abs(value):.3g}"
+
+
 def safe_std(values: pd.Series) -> float:
     std = float(values.std(ddof=0))
     return std if std > 1e-12 else 1.0
@@ -311,7 +332,7 @@ def detect_patterns(
             {
                 "metric": metric_name,
                 "pattern_key": "insufficient",
-                "pattern": "데이터 수",
+                "pattern": PATTERN_LABELS["insufficient"],
                 "status": "데이터 부족",
                 "score": np.nan,
                 "evidence": "유효 측정점이 8개 미만입니다.",
@@ -326,15 +347,15 @@ def detect_patterns(
     if len(edge) >= 3 and len(inner) >= 3:
         delta = float(edge[metric_col].mean() - inner[metric_col].mean())
         score = abs(delta) / global_std
-        direction = "edge high" if delta > 0 else "edge low"
+        direction = "높게" if delta > 0 else "낮게"
         results.append(
             {
                 "metric": metric_name,
                 "pattern_key": "edge_ring",
-                "pattern": "Edge ring",
+                "pattern": PATTERN_LABELS["edge_ring"],
                 "status": status_from_score(score, radial_threshold),
                 "score": score,
-                "evidence": f"{direction}, edge-inner {delta:+.3g}, score {score:.2f}",
+                "evidence": f"가장자리 평균이 내부보다 {format_change(delta)} {direction} 나타났습니다. 전체 산포 대비 차이는 {score:.2f}배입니다.",
             }
         )
     else:
@@ -342,10 +363,10 @@ def detect_patterns(
             {
                 "metric": metric_name,
                 "pattern_key": "edge_ring",
-                "pattern": "Edge ring",
+                "pattern": PATTERN_LABELS["edge_ring"],
                 "status": "데이터 부족",
                 "score": np.nan,
-                "evidence": "edge 또는 inner 영역 측정점 부족",
+                "evidence": "가장자리 또는 내부 영역의 측정점이 부족합니다.",
             }
         )
 
@@ -354,15 +375,15 @@ def detect_patterns(
     if len(center) >= 3 and len(mid) >= 3:
         delta = float(center[metric_col].mean() - mid[metric_col].mean())
         score = abs(delta) / global_std
-        direction = "center high" if delta > 0 else "center low"
+        direction = "높게" if delta > 0 else "낮게"
         results.append(
             {
                 "metric": metric_name,
                 "pattern_key": "center_anomaly",
-                "pattern": "Center anomaly",
+                "pattern": PATTERN_LABELS["center_anomaly"],
                 "status": status_from_score(score, center_threshold),
                 "score": score,
-                "evidence": f"{direction}, center-mid {delta:+.3g}, score {score:.2f}",
+                "evidence": f"중앙부 평균이 중간 영역보다 {format_change(delta)} {direction} 나타났습니다. 전체 산포 대비 차이는 {score:.2f}배입니다.",
             }
         )
     else:
@@ -370,10 +391,10 @@ def detect_patterns(
             {
                 "metric": metric_name,
                 "pattern_key": "center_anomaly",
-                "pattern": "Center anomaly",
+                "pattern": PATTERN_LABELS["center_anomaly"],
                 "status": "데이터 부족",
                 "score": np.nan,
-                "evidence": "center 또는 mid 영역 측정점 부족",
+                "evidence": "중앙부 또는 중간 영역의 측정점이 부족합니다.",
             }
         )
 
@@ -394,10 +415,10 @@ def detect_patterns(
         {
             "metric": metric_name,
             "pattern_key": "gradient",
-            "pattern": "Gradient",
+            "pattern": PATTERN_LABELS["gradient"],
             "status": gradient_status,
             "score": gradient_score,
-            "evidence": f"R2 {r2:.2f}, gradient {gradient_strength:.2f} sigma/radius, high side {direction_name(beta[1], beta[2])}",
+            "evidence": f"웨이퍼에서 {direction_name(beta[1], beta[2])} 방향으로 값이 높아지는 경향이 있습니다. 방향성 설명력은 {r2:.2f}, 변화 강도는 {gradient_strength:.2f}입니다.",
         }
     )
 
@@ -413,17 +434,17 @@ def detect_patterns(
     if not local.empty:
         top = local.reindex(local["_robust_z"].abs().sort_values(ascending=False).index).head(3)
         coords = ", ".join(
-            f"({row['_x_norm']:.2f}R,{row['_y_norm']:.2f}R z={row['_robust_z']:+.1f})"
+            f"({row['_x_norm']:.2f}R, {row['_y_norm']:.2f}R)"
             for _, row in top.iterrows()
         )
-        evidence = f"{len(local)} site(s), max |robust z| {max_abs_z:.1f}: {coords}"
+        evidence = f"주변 분포에서 벗어난 측정점이 {len(local)}개 보입니다. 대표 위치: {coords}"
     else:
-        evidence = f"max |robust z| {max_abs_z:.1f}"
+        evidence = f"뚜렷하게 튀는 측정점은 보이지 않습니다. 최대 이상 정도는 {max_abs_z:.1f}입니다."
     results.append(
         {
             "metric": metric_name,
             "pattern_key": "local_defect",
-            "pattern": "Local defect",
+            "pattern": PATTERN_LABELS["local_defect"],
             "status": "감지" if not local.empty else ("주의" if max_abs_z >= local_threshold * 0.7 else "정상"),
             "score": max_abs_z,
             "evidence": evidence,
@@ -494,7 +515,7 @@ def create_wafer_map(
             ),
             hovertemplate=(
                 f"{x_col}: %{{x}}<br>{y_col}: %{{y}}<br>"
-                f"{title}: %{{customdata[0]:.4g}} {unit}<br>radius: %{{customdata[1]:.2f}}R<extra></extra>"
+                f"{title}: %{{customdata[0]:.4g}} {unit}<br>정규화 반경: %{{customdata[1]:.2f}}R<extra></extra>"
             ),
             name=title,
         )
@@ -513,8 +534,8 @@ def create_wafer_map(
                     "color": "black",
                     "line": {"width": 2, "color": "black"},
                 },
-                hovertemplate=f"local defect candidate<br>{x_col}: %{{x}}<br>{y_col}: %{{y}}<extra></extra>",
-                name="local defect",
+                hovertemplate=f"국소 결함 후보<br>{x_col}: %{{x}}<br>{y_col}: %{{y}}<extra></extra>",
+                name="국소 결함 후보",
             )
         )
 
@@ -564,9 +585,9 @@ def build_recommendations(process: str, detected: pd.DataFrame) -> pd.DataFrame:
         rows.append(
             {
                 "측정치": str(row["측정치"]),
-                "패턴": str(row["패턴"]),
-                "원인 후보": "\n".join(guidance["causes"]),
-                "추가 분석 장비/로그": "\n".join(guidance["tools"]),
+                "이상 유형": str(row["이상 유형"]),
+                "의심 원인": "\n".join(guidance["causes"]),
+                "추가 확인 방법": "\n".join(guidance["tools"]),
             }
         )
 
@@ -575,9 +596,9 @@ def build_recommendations(process: str, detected: pd.DataFrame) -> pd.DataFrame:
         rows.append(
             {
                 "측정치": "공정 공통",
-                "패턴": "명확한 이상 패턴 없음",
-                "원인 후보": "\n".join(base["base_causes"]),
-                "추가 분석 장비/로그": "\n".join(base["base_tools"]),
+                "이상 유형": "명확한 이상 유형 없음",
+                "의심 원인": "\n".join(base["base_causes"]),
+                "추가 확인 방법": "\n".join(base["base_tools"]),
             }
         )
     return pd.DataFrame(rows)
@@ -588,12 +609,12 @@ def show_metric_cards(label: str, stats: dict[str, float], unit: str) -> None:
     cols[0].metric(f"{label} 평균", f"{stats['mean']:.3g} {unit}")
     cols[1].metric(f"{label} 표준편차", f"{stats['std']:.3g} {unit}")
     cols[2].metric(f"{label} 균일도", f"±{stats['uniformity']:.2f}%")
-    cols[3].metric(f"{label} CV", f"{stats['cv']:.2f}%")
+    cols[3].metric(f"{label} 변동계수", f"{stats['cv']:.2f}%")
 
 
 def main() -> None:
-    st.set_page_config(page_title="Wafer Map Analyzer", page_icon=None, layout="wide")
-    st.title("Wafer Map Analyzer")
+    st.set_page_config(page_title="웨이퍼 맵 분석기", page_icon=None, layout="wide")
+    st.title("웨이퍼 맵 분석기")
 
     selected_local_file: Path | None = None
     uploaded_file = None
@@ -603,27 +624,27 @@ def main() -> None:
 
     with st.sidebar:
         st.subheader("데이터")
-        source_mode = st.radio("데이터 소스", ["data 폴더", "파일 업로드"], horizontal=True)
+        source_mode = st.radio("데이터 선택 방식", ["예시 데이터", "파일 업로드"], horizontal=True)
 
-        if source_mode == "data 폴더":
+        if source_mode == "예시 데이터":
             local_files = list_data_files()
             if local_files:
                 selected_local_file = st.radio(
                     "파일 선택",
                     local_files,
-                    format_func=lambda path: path.name,
+                    format_func=display_data_file_name,
                 )
-                st.caption(f"{DATA_DIR.name}/ 폴더에서 {len(local_files)}개 파일 인식")
+                st.caption(f"예시 데이터 {len(local_files)}개를 인식했습니다.")
                 if selected_local_file and is_excel_file(selected_local_file):
                     sheet_names = get_local_excel_sheets(
                         str(selected_local_file),
                         selected_local_file.stat().st_mtime_ns,
                     )
-                    selected_sheet = st.selectbox("Excel 시트", sheet_names)
+                    selected_sheet = st.selectbox("엑셀 시트", sheet_names)
             else:
-                st.warning("data 폴더에 CSV/Excel 파일이 없습니다.")
+                st.warning("예시 데이터 폴더에 표 파일이 없습니다.")
         else:
-            uploaded_file = st.file_uploader("CSV/Excel/ZIP 업로드", type=["csv", "xlsx", "xls", "zip"])
+            uploaded_file = st.file_uploader("표 파일 업로드", type=["csv", "xlsx", "xls", "zip"])
             if uploaded_file is not None:
                 uploaded_bytes = uploaded_file.getvalue()
                 uploaded_suffix = Path(uploaded_file.name).suffix.lower()
@@ -631,13 +652,13 @@ def main() -> None:
                     try:
                         archive_members = get_archive_members(uploaded_file.name, uploaded_bytes)
                     except BadZipFile:
-                        st.error("ZIP 파일을 읽을 수 없습니다.")
+                        st.error("압축 파일을 읽을 수 없습니다.")
                         st.stop()
                     if not archive_members:
-                        st.error("ZIP 안에서 CSV/Excel 파일을 찾지 못했습니다.")
+                        st.error("압축 파일 안에서 읽을 수 있는 표 파일을 찾지 못했습니다.")
                         st.stop()
                     selected_archive_member = st.selectbox(
-                        "ZIP 내부 파일",
+                        "압축 파일 안의 데이터",
                         archive_members,
                         format_func=lambda member: Path(member).name,
                     )
@@ -647,12 +668,12 @@ def main() -> None:
                             uploaded_bytes,
                             selected_archive_member,
                         )
-                        selected_sheet = st.selectbox("Excel 시트", sheet_names)
+                        selected_sheet = st.selectbox("엑셀 시트", sheet_names)
                 elif is_excel_file(uploaded_file.name):
                     sheet_names = get_uploaded_excel_sheets(uploaded_file.name, uploaded_bytes)
-                    selected_sheet = st.selectbox("Excel 시트", sheet_names)
+                    selected_sheet = st.selectbox("엑셀 시트", sheet_names)
                 elif uploaded_suffix not in SUPPORTED_DATA_EXTENSIONS:
-                    st.error("CSV, XLSX, XLS, ZIP 파일만 지원합니다.")
+                    st.error("표 파일 또는 압축 파일만 지원합니다.")
                     st.stop()
 
         st.divider()
@@ -667,7 +688,7 @@ def main() -> None:
                 3.0,
                 1.15,
                 0.05,
-                help="Edge ring 판정 기준입니다. 숫자가 낮을수록 더 민감하게 감지합니다.",
+                help="가장자리 링 이상 판정 기준입니다. 숫자가 낮을수록 더 민감하게 감지합니다.",
             )
             center_threshold = st.slider(
                 "중앙 이상 기준",
@@ -675,7 +696,7 @@ def main() -> None:
                 3.0,
                 1.15,
                 0.05,
-                help="Center anomaly 판정 기준입니다. 숫자가 낮을수록 더 민감하게 감지합니다.",
+                help="중앙부 이상 판정 기준입니다. 숫자가 낮을수록 더 민감하게 감지합니다.",
             )
             gradient_r2_threshold = st.slider(
                 "방향성 변화 기준",
@@ -683,7 +704,7 @@ def main() -> None:
                 0.80,
                 0.22,
                 0.01,
-                help="Gradient 판정 기준입니다. 숫자가 낮을수록 방향성 변화를 더 쉽게 감지합니다.",
+                help="한쪽 방향 변화 판정 기준입니다. 숫자가 낮을수록 방향성 변화를 더 쉽게 감지합니다.",
             )
             local_threshold = st.slider(
                 "국소 결함 기준",
@@ -691,27 +712,27 @@ def main() -> None:
                 8.0,
                 3.5,
                 0.1,
-                help="Local defect 판정 기준입니다. 숫자가 낮을수록 튀는 측정점을 더 쉽게 표시합니다.",
+                help="국소 결함 판정 기준입니다. 숫자가 낮을수록 튀는 측정점을 더 쉽게 표시합니다.",
             )
 
     try:
-        if source_mode == "data 폴더":
+        if source_mode == "예시 데이터":
             if selected_local_file is None:
                 if not SAMPLE_CSV.exists():
-                    st.error("data 폴더에 읽을 수 있는 CSV/Excel 파일이 없습니다.")
+                    st.error("예시 데이터 폴더에 읽을 수 있는 표 파일이 없습니다.")
                     st.stop()
                 raw_df = load_sample_data()
-                source_name = "내장 synthetic CSV"
+                source_name = "내장 예시 데이터"
             else:
                 raw_df = load_local_data(
                     str(selected_local_file),
                     selected_local_file.stat().st_mtime_ns,
                     selected_sheet,
                 )
-                source_name = selected_local_file.name
+                source_name = display_data_file_name(selected_local_file)
         elif uploaded_file is None or uploaded_bytes is None:
             raw_df = load_sample_data()
-            source_name = "내장 synthetic CSV"
+            source_name = "내장 예시 데이터"
         elif selected_archive_member:
             raw_df = load_archive_member(
                 uploaded_file.name,
@@ -725,7 +746,7 @@ def main() -> None:
             source_name = uploaded_file.name
 
         if selected_sheet:
-            source_name = f"{source_name} / sheet: {selected_sheet}"
+            source_name = f"{source_name} / 시트: {selected_sheet}"
     except FileNotFoundError:
         st.error("synthetic_wafer_map.csv 파일을 찾을 수 없습니다. scripts/generate_synthetic_data.py를 실행해 주세요.")
         st.stop()
@@ -758,8 +779,8 @@ def main() -> None:
         st.divider()
         with st.expander("데이터 컬럼 설정", expanded=False):
             st.caption("파일 컬럼명이 다를 때만 조정하세요.")
-            x_col = st.selectbox("X 좌표", numeric_candidates, index=numeric_candidates.index(guessed_x) if guessed_x in numeric_candidates else 0)
-            y_col = st.selectbox("Y 좌표", numeric_candidates, index=numeric_candidates.index(guessed_y) if guessed_y in numeric_candidates else min(1, len(numeric_candidates) - 1))
+            x_col = st.selectbox("가로 좌표", numeric_candidates, index=numeric_candidates.index(guessed_x) if guessed_x in numeric_candidates else 0)
+            y_col = st.selectbox("세로 좌표", numeric_candidates, index=numeric_candidates.index(guessed_y) if guessed_y in numeric_candidates else min(1, len(numeric_candidates) - 1))
             thickness_col = st.selectbox(
                 "두께",
                 numeric_candidates,
@@ -775,7 +796,7 @@ def main() -> None:
     selected_df = raw_df.copy()
     if wafer_id_col and raw_df[wafer_id_col].nunique() > 1:
         wafer_options = list(raw_df[wafer_id_col].dropna().astype(str).unique())
-        selected_wafer = st.sidebar.selectbox("Wafer ID", wafer_options)
+        selected_wafer = st.sidebar.selectbox("웨이퍼 번호", wafer_options)
         selected_df = raw_df[raw_df[wafer_id_col].astype(str) == selected_wafer].copy()
 
     required_cols = [x_col, y_col, thickness_col, sheet_col]
@@ -785,12 +806,12 @@ def main() -> None:
         st.stop()
     data = add_geometry(data, x_col, y_col)
 
-    st.caption(f"Data source: {source_name} | points: {len(data):,} | process: {process}")
+    st.caption(f"데이터: {source_name} | 측정점: {len(data):,}개 | 공정: {process}")
 
     thickness_stats = metric_stats(data[thickness_col])
     sheet_stats = metric_stats(data[sheet_col])
     show_metric_cards("두께", thickness_stats, "nm")
-    show_metric_cards("시트저항", sheet_stats, "ohm/sq")
+    show_metric_cards("시트저항", sheet_stats, "Ω/□")
 
     detected_rows = []
     detected_rows.extend(
@@ -803,52 +824,52 @@ def main() -> None:
     pattern_table = detected.rename(
         columns={
             "metric": "측정치",
-            "pattern": "패턴",
+            "pattern": "이상 유형",
             "status": "판정",
             "score": "점수",
-            "evidence": "근거",
+            "evidence": "판정 이유",
         }
     )
     pattern_table["점수"] = pattern_table["점수"].map(lambda value: "" if pd.isna(value) else f"{value:.2f}")
 
-    st.subheader("Heatmap 비교")
+    st.subheader("히트맵 비교")
     heatmap_cols = st.columns(2)
     with heatmap_cols[0]:
-        fig = create_wafer_map(data, x_col, y_col, thickness_col, "두께 heatmap", "Viridis", "nm", local_threshold)
+        fig = create_wafer_map(data, x_col, y_col, thickness_col, "두께 히트맵", "Viridis", "nm", local_threshold)
         st.plotly_chart(fig, use_container_width=True)
     with heatmap_cols[1]:
-        fig = create_wafer_map(data, x_col, y_col, sheet_col, "시트저항 heatmap", "RdBu_r", "ohm/sq", local_threshold)
+        fig = create_wafer_map(data, x_col, y_col, sheet_col, "시트저항 히트맵", "RdBu_r", "Ω/□", local_threshold)
         st.plotly_chart(fig, use_container_width=True)
 
-    st.subheader("패턴 판정")
+    st.subheader("이상 판정")
     status_counts = pattern_table["판정"].value_counts()
     summary_cols = st.columns(3)
     summary_cols[0].metric("감지", int(status_counts.get("감지", 0)))
     summary_cols[1].metric("주의", int(status_counts.get("주의", 0)))
     summary_cols[2].metric("정상", int(status_counts.get("정상", 0)))
     st.dataframe(
-        style_status_table(pattern_table[["측정치", "패턴", "판정", "근거"]]),
+        style_status_table(pattern_table[["측정치", "이상 유형", "판정", "판정 이유"]]),
         use_container_width=True,
         hide_index=True,
     )
     with st.expander("상세 점수 보기", expanded=False):
         st.dataframe(
-            style_status_table(pattern_table[["측정치", "패턴", "판정", "점수", "근거"]]),
+            style_status_table(pattern_table[["측정치", "이상 유형", "판정", "점수", "판정 이유"]]),
             use_container_width=True,
             hide_index=True,
         )
     st.download_button(
-        "패턴 판정 CSV 다운로드",
+        "이상 판정 결과 내려받기",
         pattern_table.to_csv(index=False).encode("utf-8-sig"),
         file_name="wafer_pattern_judgement.csv",
         mime="text/csv",
     )
 
-    st.subheader("원인 후보")
+    st.subheader("의심 원인과 추가 확인 방법")
     recommendations = build_recommendations(process, pattern_table)
     st.dataframe(recommendations, use_container_width=True, hide_index=True)
     st.download_button(
-        "분석 결과 CSV 다운로드",
+        "분석 데이터 내려받기",
         data.to_csv(index=False).encode("utf-8-sig"),
         file_name="wafer_map_analyzed.csv",
         mime="text/csv",
