@@ -656,12 +656,43 @@ def main() -> None:
                     st.stop()
 
         st.divider()
-        process = st.selectbox("공정", ["증착", "식각", "포토"])
-        st.divider()
-        radial_threshold = st.slider("Edge ring score 기준", 0.5, 3.0, 1.15, 0.05)
-        center_threshold = st.slider("Center anomaly score 기준", 0.5, 3.0, 1.15, 0.05)
-        gradient_r2_threshold = st.slider("Gradient R2 기준", 0.05, 0.80, 0.22, 0.01)
-        local_threshold = st.slider("Local defect robust z 기준", 2.0, 8.0, 3.5, 0.1)
+        process = st.selectbox("공정 선택", ["증착", "식각", "포토"])
+        st.caption("기본 설정만으로 바로 분석할 수 있습니다.")
+
+        with st.expander("고급 설정", expanded=False):
+            st.caption("숫자를 낮추면 작은 변화도 더 잘 잡고, 높이면 확실한 이상만 잡습니다.")
+            radial_threshold = st.slider(
+                "가장자리 이상 기준",
+                0.5,
+                3.0,
+                1.15,
+                0.05,
+                help="Edge ring 판정 기준입니다. 숫자가 낮을수록 더 민감하게 감지합니다.",
+            )
+            center_threshold = st.slider(
+                "중앙 이상 기준",
+                0.5,
+                3.0,
+                1.15,
+                0.05,
+                help="Center anomaly 판정 기준입니다. 숫자가 낮을수록 더 민감하게 감지합니다.",
+            )
+            gradient_r2_threshold = st.slider(
+                "방향성 변화 기준",
+                0.05,
+                0.80,
+                0.22,
+                0.01,
+                help="Gradient 판정 기준입니다. 숫자가 낮을수록 방향성 변화를 더 쉽게 감지합니다.",
+            )
+            local_threshold = st.slider(
+                "국소 결함 기준",
+                2.0,
+                8.0,
+                3.5,
+                0.1,
+                help="Local defect 판정 기준입니다. 숫자가 낮을수록 튀는 측정점을 더 쉽게 표시합니다.",
+            )
 
     try:
         if source_mode == "data 폴더":
@@ -725,18 +756,20 @@ def main() -> None:
 
     with st.sidebar:
         st.divider()
-        x_col = st.selectbox("X 좌표 컬럼", numeric_candidates, index=numeric_candidates.index(guessed_x) if guessed_x in numeric_candidates else 0)
-        y_col = st.selectbox("Y 좌표 컬럼", numeric_candidates, index=numeric_candidates.index(guessed_y) if guessed_y in numeric_candidates else min(1, len(numeric_candidates) - 1))
-        thickness_col = st.selectbox(
-            "두께 컬럼",
-            numeric_candidates,
-            index=numeric_candidates.index(guessed_thickness) if guessed_thickness in numeric_candidates else min(2, len(numeric_candidates) - 1),
-        )
-        sheet_col = st.selectbox(
-            "시트저항 컬럼",
-            numeric_candidates,
-            index=numeric_candidates.index(guessed_sheet) if guessed_sheet in numeric_candidates else min(3, len(numeric_candidates) - 1),
-        )
+        with st.expander("데이터 컬럼 설정", expanded=False):
+            st.caption("파일 컬럼명이 다를 때만 조정하세요.")
+            x_col = st.selectbox("X 좌표", numeric_candidates, index=numeric_candidates.index(guessed_x) if guessed_x in numeric_candidates else 0)
+            y_col = st.selectbox("Y 좌표", numeric_candidates, index=numeric_candidates.index(guessed_y) if guessed_y in numeric_candidates else min(1, len(numeric_candidates) - 1))
+            thickness_col = st.selectbox(
+                "두께",
+                numeric_candidates,
+                index=numeric_candidates.index(guessed_thickness) if guessed_thickness in numeric_candidates else min(2, len(numeric_candidates) - 1),
+            )
+            sheet_col = st.selectbox(
+                "시트저항",
+                numeric_candidates,
+                index=numeric_candidates.index(guessed_sheet) if guessed_sheet in numeric_candidates else min(3, len(numeric_candidates) - 1),
+            )
 
     wafer_id_col = guess_column(list(raw_df.columns), ["wafer_id", "wafer", "웨이퍼"])
     selected_df = raw_df.copy()
@@ -788,11 +821,22 @@ def main() -> None:
         st.plotly_chart(fig, use_container_width=True)
 
     st.subheader("패턴 판정")
+    status_counts = pattern_table["판정"].value_counts()
+    summary_cols = st.columns(3)
+    summary_cols[0].metric("감지", int(status_counts.get("감지", 0)))
+    summary_cols[1].metric("주의", int(status_counts.get("주의", 0)))
+    summary_cols[2].metric("정상", int(status_counts.get("정상", 0)))
     st.dataframe(
-        style_status_table(pattern_table[["측정치", "패턴", "판정", "점수", "근거"]]),
+        style_status_table(pattern_table[["측정치", "패턴", "판정", "근거"]]),
         use_container_width=True,
         hide_index=True,
     )
+    with st.expander("상세 점수 보기", expanded=False):
+        st.dataframe(
+            style_status_table(pattern_table[["측정치", "패턴", "판정", "점수", "근거"]]),
+            use_container_width=True,
+            hide_index=True,
+        )
     st.download_button(
         "패턴 판정 CSV 다운로드",
         pattern_table.to_csv(index=False).encode("utf-8-sig"),
